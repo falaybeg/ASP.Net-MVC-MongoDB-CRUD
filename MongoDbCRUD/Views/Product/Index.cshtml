@@ -1,0 +1,72 @@
+﻿@model IEnumerable<MongoDbCRUD.Models.Product>
+@{
+    ViewBag.Title = "Index";
+}
+<br /><br />
+<div style="margin-top:10px">
+    @Html.ActionLink("Create New", "CreateProduct", "Product", new { @class = "btn btn-primary" })
+</div>
+
+
+<div style="margin-top:10px">
+    <table class="table table-bordered table-hover" id="product">
+        <tr>
+            <th>Product Name</th>
+            <th>Barcode Number</th>
+            <th>Quantity</th>
+            <th style="width:250px"></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BarcodeNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    <a href="@Url.Action("UpdateProduct","Product", new { productId = item.Id})" class="btn btn-warning">Update</a>
+
+                    @using (Html.BeginForm("DeleteProduct", "Product", new { productId = item.Id }))
+                    {
+                           <button class="btn btn-danger"> Delete</button>
+                    }
+
+                    @*
+        <span class="label label-danger"> <a id="delete" data-product-id="@item.Id" style="color:white">Delete</a></span>
+                    *@
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+
+            var pid = $("#delete").attr("data-product-id");
+
+            $("#delete").click(function () {
+
+                    $.ajax({
+
+                        url: "/Product/DeleteProduct/",
+                        type: "POST",
+                        data: { productId: pid },
+                        dataType: "json",
+                        success: function (result) {
+
+                            $("#product").closest("tr").remove();
+                        }
+                   });
+             });
+        });
+    </script>
+
+}

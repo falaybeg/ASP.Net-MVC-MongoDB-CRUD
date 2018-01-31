@@ -1,0 +1,39 @@
+﻿@model MongoDbCRUD.Models.Product
+
+@{
+    ViewBag.Title = "CreateProduct";
+}
+
+<h3><b>Product Management</b></h3>
+<br /><br />
+
+@using (Html.BeginForm())
+{
+<div class="col-md-12">
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.ProductName)
+        @Html.TextBoxFor(model => model.ProductName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.ProductName)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.BarcodeNumber)
+        @Html.TextBoxFor(model => model.BarcodeNumber, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.BarcodeNumber)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Quantity)
+        @Html.TextBoxFor(model => model.Quantity, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Quantity)
+    </div>
+    
+        <input type="submit" value="Save" class="btn btn-success" />
+  
+    </div>
+}
+
+
